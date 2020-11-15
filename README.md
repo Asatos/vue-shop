@@ -1,10 +1,11 @@
 # vue-shop
 
 > A Vue.js project
+> 基于 vue-cli 2.0 版本
 
 ## Build Setup
 
-``` bash
+```bash
 # install dependencies
 npm install
 
