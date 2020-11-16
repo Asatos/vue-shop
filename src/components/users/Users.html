@@ -1,0 +1,63 @@
+<div>
+  <div class="bread">
+    <el-breadcrumb separator-class="el-icon-arrow-right">
+      <el-breadcrumb-item :to="{ path: '/home' }">首页</el-breadcrumb-item>
+      <el-breadcrumb-item>用户管理</el-breadcrumb-item>
+      <el-breadcrumb-item>用户列表</el-breadcrumb-item>
+    </el-breadcrumb>
+  </div>
+  <div class="searchArea">
+    <el-row :gutter="20">
+      <el-col :span="8">
+        <el-input placeholder="请输入内容" v-model="searchText" class="input-with-select">
+          <el-button slot="append" icon="el-icon-search" @click="query"></el-button>
+        </el-input>
+      </el-col>
+      <el-col :span="8">
+        <el-button @click="showAddUserDialog">添加用户</el-button>
+      </el-col>
+    </el-row>
+  </div>
+  <div>
+    <el-table :data="usersData" stripe border height="350" style="width: 100%;">
+      <el-table-column prop="username" label="姓名" width="180">
+      </el-table-column>
+      <el-table-column prop="email" label="邮箱" width="180">
+      </el-table-column>
+      <el-table-column prop="mobile" label="电话">
+      </el-table-column>
+      <el-table-column prop="" label="状态">
+      </el-table-column>
+      <el-table-column prop="" label="操作">
+      </el-table-column>
+    </el-table>
+  </div>
+  <div class="userTable-pagination">
+    <el-pagination background layout="sizes,prev, pager, next" :total="total" :page-sizes="pagesizes"
+      :page-size="pagesize" :current-page="pagenum" @size-change="handleSizeChange"
+      @current-change="handleCurrentChange">
+    </el-pagination>
+  </div>
+  <div class="addUserDialog">
+    <el-dialog title="添加用户" :visible.sync="dialogAddUserVisible" :close-on-click-modal="false" width="500px">
+      <el-form :model="addUserForm" ref="addUserForm" label-width="80px" :rules="rules">
+        <el-form-item label="用户名" prop="username">
+          <el-input v-model="addUserForm.username"></el-input>
+        </el-form-item>
+        <el-form-item label="密码" prop="password">
+          <el-input v-model="addUserForm.password"></el-input>
+        </el-form-item>
+        <el-form-item label="邮箱" prop="email">
+          <el-input v-model="addUserForm.email"></el-input>
+        </el-form-item>
+        <el-form-item label="手机" prop="mobile">
+          <el-input v-model="addUserForm.mobile"></el-input>
+        </el-form-item>
+      </el-form>
+      <div slot="footer">
+        <el-button @click="dialogAddUserVisible = false">取 消</el-button>
+        <el-button type="primary" @click="addUser">确 定</el-button>
+      </div>
+    </el-dialog>
+  </div>
+</div>

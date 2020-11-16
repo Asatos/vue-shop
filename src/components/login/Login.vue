@@ -56,28 +56,33 @@ export default {
   // 方法集合
   methods: {
     logintForm () {
-      this.$refs.loginForm.validate((valid) => {
+      this.$refs.loginForm.validate(async (valid) => {
         if (!valid) {
           return false
         }
-        axios.post('http://localhost:8888/api/private/v1/login', this.loginForm).then(res => {
-          if (res.data.meta.status === 200) {
-            this.$message({
-              message: res.data.meta.msg,
-              type: 'success',
-              duration: 1000,
-              onClose: () => {
-                this.$router.push('/home')
-              }
-            })
-          } else {
-            this.$message({
-              message: res.data.meta.msg,
-              type: 'error',
-              duration: 1000
-            })
-          }
-        })
+        let res = await axios.post('http://localhost:8888/api/private/v1/login', this.loginForm)
+        console.log(res)
+        if (res.data.meta.status === 200) {
+          let username = this.loginForm.username
+          this.$message({
+            message: res.data.meta.msg,
+            type: 'success',
+            duration: 1000,
+            onClose: () => {
+              localStorage.setItem('token', res.data.data.token)
+              this.$router.push({
+                name: 'home',
+                params: { username: username }
+              })
+            }
+          })
+        } else {
+          this.$message({
+            message: res.data.meta.msg,
+            type: 'error',
+            duration: 1000
+          })
+        }
       })
     },
     resetForm () {
@@ -86,7 +91,7 @@ export default {
   }
 }
 </script>
-<style scoped>
+<style lang="less" scoped>
 .el-row {
   height: 100%;
   background-color: #2d434c;
