@@ -1,4 +1,3 @@
-import axios from 'axios'
 
 export default {
   data () {
@@ -22,6 +21,7 @@ export default {
         email: '',
         mobile: ''
       },
+      // 校验规则
       rules: {
         username: [
           // 判断是否必填
@@ -43,8 +43,7 @@ export default {
           // 判断格式
           { pattern: /^(13[0-9]|14[01456879]|15[0-3,5-9]|16[2567]|17[0-8]|18[0-9]|19[0-3,5-9])\d{8}$/, message: '手机号格式不正确', trigger: 'blur' }
         ]
-      },
-      value1: true
+      }
     }
   },
   created () {
@@ -55,19 +54,15 @@ export default {
       this.loadUsersData()
     },
     async loadUsersData () {
-      const url = 'http://localhost:8888/api/private/v1/users'
+      const url = 'users'
       const config = {
         params: {
           query: this.searchText,
           pagenum: this.pagenum,
           pagesize: this.pagesize
-        },
-        headers: {
-          Authorization: localStorage.getItem('token')
         }
       }
-      let res = await axios.get(url, config)
-      console.log(res)
+      let res = await this.$axios.get(url, config)
       this.usersData = res.data.data.users
       this.total = res.data.data.total
       this.pagenum = res.data.data.pagenum
@@ -84,12 +79,7 @@ export default {
       this.dialogAddUserVisible = true
     },
     addUser () {
-      axios.post('http://localhost:8888/api/private/v1/users', this.addUserForm, {
-        headers: {
-          Authorization: localStorage.getItem('token')
-        }
-      }).then(res => {
-        console.log(res)
+      this.$axios.post('users', this.addUserForm).then(res => {
         if (res.data.meta.status === 201) {
           this.dialogAddUserVisible = false
           this.$message({
@@ -103,6 +93,44 @@ export default {
           this.loadUsersData()
         }
       })
+    },
+    async delUser (row) {
+      const { id } = row
+      try {
+        await this.$confirm('此操作将永久删除该用户, 是否继续?', '提示', {
+          confirmButtonText: '确定',
+          cancelButtonText: '取消',
+          type: 'warning'
+        })
+        let res = await this.$axios.delete(`users/${id}`)
+        if (res.data.meta.status === 200) {
+          this.$message({
+            message: '删除成功',
+            type: 'success',
+            duration: 1000
+          })
+          this.loadUsersData()
+        }
+      } catch (error) {
+        this.$message({
+          message: '已取消删除',
+          type: 'info',
+          duration: 1000
+        })
+      }
+    },
+    async stateChange (row) {
+      const { id, mg_state: state } = row
+      let res = await this.$axios.put(`users/${id}/state/${state}`, null)
+      console.log(res)
+      if (res.data.meta.status === 200) {
+        this.$message({
+          message: '状态更改成功',
+          type: 'success',
+          duration: 1000
+        })
+        this.loadUsersData()
+      }
     }
   }
 }

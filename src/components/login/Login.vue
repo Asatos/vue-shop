@@ -32,7 +32,6 @@
 </template>
 
 <script>
-import axios from 'axios'
 
 export default {
   data () {
@@ -60,7 +59,7 @@ export default {
         if (!valid) {
           return false
         }
-        let res = await axios.post('http://localhost:8888/api/private/v1/login', this.loginForm)
+        let res = await this.$axios.post('login', this.loginForm)
         console.log(res)
         if (res.data.meta.status === 200) {
           let username = this.loginForm.username
