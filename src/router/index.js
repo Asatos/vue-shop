@@ -4,7 +4,7 @@ import Home from '../components/home/Home'
 import Login from '../components/login/Login'
 import Users from '../components/users/Users.vue'
 import Roles from '../components/roles/Roles'
-import Permits from '../components/permits/Permits'
+import Rights from '../components/rights/Rights'
 
 Vue.use(Router)
 
@@ -27,9 +27,9 @@ const router = new Router({
           name: 'roles',
           component: Roles
         }, {
-          path: '/permits',
-          name: 'permits',
-          component: Permits
+          path: '/rights',
+          name: 'rights',
+          component: Rights
         }
       ]
     }, {

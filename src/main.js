@@ -4,18 +4,15 @@ import Vue from 'vue'
 import App from './App'
 import router from './router'
 // element-ui
-import ElementUI, { Message, MessageBox } from 'element-ui'
+import ElementUI, { MessageBox } from 'element-ui'
 import 'element-ui/lib/theme-chalk/index.css'
 // 自定义公共样式
-import './assets/common.css'
+import './assets/common.less'
 // axios 基准请求路径
 import axios from 'axios'
 axios.defaults.baseURL = 'http://localhost:8888/api/private/v1/'
 // 全局引入axios
 Vue.prototype.$axios = axios
-// 全局引入MessageBox
-Vue.prototype.$message = Message
-Vue.prototype.$confirm = MessageBox.confirm
 // axios 请求拦截器
 // Add a request interceptor
 axios.interceptors.request.use(function (config) {

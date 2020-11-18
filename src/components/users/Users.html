@@ -35,38 +35,58 @@
       </el-table-column>
       <el-table-column prop="" label="操作">
         <template slot-scope="scope">
-          <el-button type="primary" plain size="mini" icon="el-icon-edit"></el-button>
+          <el-button type="primary" plain size="mini" icon="el-icon-edit" @click="showEditUserDialog(scope.row)">
+          </el-button>
           <el-button type="danger" plain size="mini" icon="el-icon-delete" @click="delUser(scope.row)"></el-button>
           <el-button type="success" plain size="mini" icon="el-icon-check">分配角色</el-button>
         </template>
       </el-table-column>
     </el-table>
   </div>
-  <div class="userTable-pagination">
+  <div class="pagination-custom">
     <el-pagination background layout="sizes,prev, pager, next" :total="total" :page-sizes="pagesizes"
       :page-size="pagesize" :current-page="pagenum" @size-change="handleSizeChange"
       @current-change="handleCurrentChange">
     </el-pagination>
   </div>
-  <div class="addUserDialog">
+  <div class="dialog-custom">
     <el-dialog title="添加用户" :visible.sync="dialogAddUserVisible" :close-on-click-modal="false" width="500px">
       <el-form :model="addUserForm" ref="addUserForm" label-width="80px" :rules="rules">
         <el-form-item label="用户名" prop="username">
-          <el-input v-model="addUserForm.username"></el-input>
+          <el-input v-model="addUserForm.username" autocomplete="off"></el-input>
         </el-form-item>
         <el-form-item label="密码" prop="password">
-          <el-input v-model="addUserForm.password"></el-input>
+          <el-input v-model="addUserForm.password" autocomplete="off"></el-input>
         </el-form-item>
         <el-form-item label="邮箱" prop="email">
-          <el-input v-model="addUserForm.email"></el-input>
+          <el-input v-model="addUserForm.email" autocomplete="off"></el-input>
         </el-form-item>
         <el-form-item label="手机" prop="mobile">
-          <el-input v-model="addUserForm.mobile"></el-input>
+          <el-input v-model="addUserForm.mobile" autocomplete="off"></el-input>
         </el-form-item>
       </el-form>
       <div slot="footer">
         <el-button @click="dialogAddUserVisible = false">取 消</el-button>
         <el-button type="primary" @click="addUser">确 定</el-button>
+      </div>
+    </el-dialog>
+  </div>
+  <div class="dialog-custom">
+    <el-dialog title="编辑用户" :visible.sync="dialogEditUserVisible" :close-on-click-modal="false" width="500px">
+      <el-form :model="editUserForm" label-width="80px">
+        <el-form-item label="用户名称">
+          <el-tag type="info">{{editUserForm.username}}</el-tag>
+        </el-form-item>
+        <el-form-item label="邮箱">
+          <el-input v-model="editUserForm.email" autocomplete="off"></el-input>
+        </el-form-item>
+        <el-form-item label="手机">
+          <el-input v-model="editUserForm.mobile" autocomplete="off"></el-input>
+        </el-form-item>
+      </el-form>
+      <div slot="footer" class="dialog-footer">
+        <el-button @click="dialogEditUserVisible = false">取 消</el-button>
+        <el-button type="primary" @click="editUser">确 定</el-button>
       </div>
     </el-dialog>
   </div>

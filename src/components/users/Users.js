@@ -43,6 +43,13 @@ export default {
           // 判断格式
           { pattern: /^(13[0-9]|14[01456879]|15[0-3,5-9]|16[2567]|17[0-8]|18[0-9]|19[0-3,5-9])\d{8}$/, message: '手机号格式不正确', trigger: 'blur' }
         ]
+      },
+      dialogEditUserVisible: false,
+      editUserForm: {
+        id: 0,
+        username: '',
+        email: '',
+        mobile: ''
       }
     }
   },
@@ -126,6 +133,29 @@ export default {
       if (res.data.meta.status === 200) {
         this.$message({
           message: '状态更改成功',
+          type: 'success',
+          duration: 1000
+        })
+        this.loadUsersData()
+      }
+    },
+    showEditUserDialog (row) {
+      const { id, username, email, mobile } = row
+      this.editUserForm.id = id
+      this.editUserForm.username = username
+      this.editUserForm.email = email
+      this.editUserForm.mobile = mobile
+      this.dialogEditUserVisible = true
+    },
+    async editUser () {
+      const { id, email, mobile } = this.editUserForm
+      let res = await this.$axios.put(`users/${id}`, {
+        email, mobile
+      })
+      if (res.data.meta.status === 200) {
+        this.dialogEditUserVisible = false
+        this.$message({
+          message: '编辑用户成功',
           type: 'success',
           duration: 1000
         })

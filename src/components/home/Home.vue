@@ -38,7 +38,7 @@
               <span>权限管理</span>
             </template>
             <el-menu-item index="roles">角色列表</el-menu-item>
-            <el-menu-item index="permits">权限列表</el-menu-item>
+            <el-menu-item index="rights"><i class="el-icon-key"></i>权限列表</el-menu-item>
           </el-submenu>
         </el-menu>
       </el-aside>
@@ -93,7 +93,7 @@ export default {
   height: 100%;
 }
 .el-header {
-  background-color: #434A50;
+  background-color: #434a50;
   padding: 0;
   color: #fff;
   img {
@@ -116,9 +116,9 @@ export default {
   }
 }
 .el-aside {
-  background-color: #D3DCE6;
+  background-color: #d3dce6;
 }
 .el-main {
-  background-color: #E9EEF3;
+  background-color: #e9eef3;
 }
 </style>
