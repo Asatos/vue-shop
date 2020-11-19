@@ -27,17 +27,17 @@
           <!-- 插槽slot 具名 -->
           <el-submenu index="1">
             <template slot="title">
-              <i class="el-icon-location"></i>
+              <i class="el-icon-s-operation"></i>
               <span>用户管理</span>
             </template>
             <el-menu-item index="users"><i class="el-icon-user"></i>用户列表</el-menu-item>
           </el-submenu>
           <el-submenu index="2">
             <template slot="title">
-              <i class="el-icon-location"></i>
+              <i class="el-icon-s-operation"></i>
               <span>权限管理</span>
             </template>
-            <el-menu-item index="roles">角色列表</el-menu-item>
+            <el-menu-item index="roles"><i class="el-icon-user-solid"></i>角色列表</el-menu-item>
             <el-menu-item index="rights"><i class="el-icon-key"></i>权限列表</el-menu-item>
           </el-submenu>
         </el-menu>

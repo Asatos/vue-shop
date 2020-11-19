@@ -92,10 +92,7 @@ export default {
           this.$message({
             type: 'success',
             message: '添加成功!',
-            duration: 1000,
-            onClose: () => {
-              this.$refs.addUserForm.resetFields()
-            }
+            duration: 1000
           })
           this.loadUsersData()
         }
@@ -161,6 +158,9 @@ export default {
         })
         this.loadUsersData()
       }
+    },
+    dialogClosed () {
+      this.$refs.addUserForm.resetFields()
     }
   }
 }

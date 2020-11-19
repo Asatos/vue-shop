@@ -50,7 +50,8 @@
     </el-pagination>
   </div>
   <div class="dialog-custom">
-    <el-dialog title="添加用户" :visible.sync="dialogAddUserVisible" :close-on-click-modal="false" width="500px">
+    <el-dialog title="添加用户" :visible.sync="dialogAddUserVisible" :close-on-click-modal="false" width="500px"
+      @closed="dialogClosed">
       <el-form :model="addUserForm" ref="addUserForm" label-width="80px" :rules="rules">
         <el-form-item label="用户名" prop="username">
           <el-input v-model="addUserForm.username" autocomplete="off"></el-input>

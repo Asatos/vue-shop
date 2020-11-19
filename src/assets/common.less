@@ -7,6 +7,17 @@ body,
 #app {
   height: 100%;
 }
+::-webkit-scrollbar {
+  width: 8px;
+}
+//滚动条的滑块
+::-webkit-scrollbar-thumb {
+  background-color: #434a50;
+  border-radius: 3px;
+}
+body .el-scrollbar__wrap {
+  overflow-x: hidden;
+}
 body .el-table th.gutter {
   display: table-cell !important;
 }
@@ -28,10 +39,6 @@ body .el-table th.gutter {
   .el-input.el-input--mini.el-input--suffix {
     margin-left: 0;
   }
-}
-
-.pagination-custom /deep/ .el-pagination .el-select .el-input {
-  margin: 0;
 }
 .dialog-custom /deep/ .el-dialog__body {
   padding-bottom: 0px;

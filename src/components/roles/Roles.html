@@ -1,0 +1,62 @@
+<div class=''>
+  <div class="bread">
+    <el-breadcrumb separator-class="el-icon-arrow-right">
+      <el-breadcrumb-item :to="{ path: '/home' }">首页</el-breadcrumb-item>
+      <el-breadcrumb-item>权限管理</el-breadcrumb-item>
+      <el-breadcrumb-item>角色列表</el-breadcrumb-item>
+    </el-breadcrumb>
+  </div>
+  <el-table :data="rolesData" height="550px" style="width: 100%">
+    <el-table-column type="expand">
+      <template slot-scope="scope">
+        <!-- 第一层 遍历row.children -->
+        <el-row class="row1" v-for="item1 in scope.row.children" :key="item1.id">
+          <el-col :span="4">
+            <el-tag>{{item1.authName}}</el-tag>
+            <i class="el-icon-arrow-right"></i>
+          </el-col>
+          <el-col :span="20">
+            <!-- 第二层 遍历item1.children -->
+            <el-row class="row2" v-for="item2 in item1.children" :key="item2.id">
+              <el-col :span="4">
+                <el-tag type="success">{{item2.authName}}</el-tag>
+                <i class="el-icon-arrow-right"></i>
+              </el-col>
+              <el-col :span="20">
+                <!-- 第三层 遍历item2.children -->
+                <el-tag class="tag3" type="warning" v-for="item3 in item2.children" :key="item3.id">
+                  {{item3.authName}}
+                </el-tag>
+              </el-col>
+            </el-row>
+          </el-col>
+        </el-row>
+      </template>
+    </el-table-column>
+    <el-table-column type="index" label="#" :index="indexMethod">
+    </el-table-column>
+    <el-table-column prop="roleName" label="角色名称" width="180">
+    </el-table-column>
+    <el-table-column prop="roleDesc" label="描述" width="180">
+    </el-table-column>
+    <el-table-column label="操作">
+      <template slot-scope="scope">
+        <el-button type="primary" plain size="mini" icon="el-icon-edit"></el-button>
+        <el-button type="danger" plain size="mini" icon="el-icon-delete"></el-button>
+        <el-button type="success" plain size="mini" icon="el-icon-check" @click="showAsignRightsDialog(scope.row)">分配权限
+        </el-button>
+      </template>
+    </el-table-column>
+  </el-table>
+  <el-dialog title="角色授权" width="400px" :visible.sync="dialogAsignRightsVisible" :close-on-click-modal="false">
+    <div class="asignRightsDialog">
+      <el-tree ref="rightsTree" :data="data" show-checkbox node-key="id" :default-expand-all="true"
+        :default-checked-keys="[5]" :props="defaultProps">
+      </el-tree>
+    </div>
+    <div slot="footer" class="dialog-footer">
+      <el-button @click="dialogAsignRightsVisible = false">取 消</el-button>
+      <el-button type="primary" @click="dialogAsignRightsVisible = false">确 定</el-button>
+    </div>
+  </el-dialog>
+</div>
