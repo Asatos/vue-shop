@@ -50,11 +50,19 @@ export default {
         username: '',
         email: '',
         mobile: ''
-      }
+      },
+      dialogAssignRoleVisible: false,
+      assignRoleForm: {
+        username: '',
+        id: '',
+        rid: ''
+      },
+      rolesData: []
     }
   },
   created () {
     this.loadUsersData()
+    this.loadRolesData()
   },
   methods: {
     query () {
@@ -159,8 +167,43 @@ export default {
         this.loadUsersData()
       }
     },
-    dialogClosed () {
+    addUserDialogClosed () {
       this.$refs.addUserForm.resetFields()
+    },
+    editUserDialogClosed () {
+      this.$refs.addUserForm.resetFields()
+    },
+    assignRoleDialogClosed () {
+      this.assignRoleForm.username = ''
+      this.assignRoleForm.id = ''
+      this.assignRoleForm.rid = ''
+    },
+    async showAssignRoleDialog (row) {
+      this.dialogAssignRoleVisible = true
+      const { username, id } = row
+      let res = await this.$axios.get(`users/${id}`)
+      this.assignRoleForm.username = username
+      this.assignRoleForm.id = id
+      this.assignRoleForm.rid = res.data.data.rid === -1 ? '' : res.data.data.rid
+    },
+    async loadRolesData () {
+      let res = await this.$axios.get('roles')
+      this.rolesData = res.data.data
+    },
+    async assignRole () {
+      const { id, rid } = this.assignRoleForm
+      let res = await this.$axios.put(`users/${id}/role`, {
+        rid: rid
+      })
+      if (res.data.meta.status === 200) {
+        this.dialogAssignRoleVisible = false
+        this.loadUsersData()
+        this.$message({
+          message: '角色分配成功',
+          type: 'success',
+          duration: 1000
+        })
+      }
     }
   }
 }
