@@ -1,25 +1,25 @@
 * {
   margin: 0;
   padding: 0;
+  -webkit-box-sizing: border-box;
+  -moz-box-sizing: border-box;
+  box-sizing: border-box;
 }
 html,
 body,
 #app {
   height: 100%;
 }
+.default-scrollbar__warp.el-scrollbar__wrap {
+  overflow: hidden;
+}
 ::-webkit-scrollbar {
-  width: 8px;
+  width: 6px;
 }
 //滚动条的滑块
 ::-webkit-scrollbar-thumb {
   background-color: #434a50;
-  border-radius: 3px;
-}
-body .el-scrollbar__wrap {
-  overflow-x: hidden;
-}
-body .el-table th.gutter {
-  display: table-cell !important;
+  border-radius: 2px;
 }
 .bread /deep/ .el-breadcrumb {
   background-color: #d4dae0;

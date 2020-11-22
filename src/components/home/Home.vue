@@ -18,29 +18,29 @@
     </el-header>
     <el-container>
       <!-- 侧栏 -->
-      <el-aside width="230px">
-        <el-menu :router="true"
-                 default-active="2"
-                 background-color="#545c64"
-                 text-color="#fff"
-                 active-text-color="#ffd04b">
-          <!-- 插槽slot 具名 -->
-          <el-submenu index="1">
-            <template slot="title">
-              <i class="el-icon-s-operation"></i>
-              <span>用户管理</span>
-            </template>
-            <el-menu-item index="users"><i class="el-icon-user"></i>用户列表</el-menu-item>
-          </el-submenu>
-          <el-submenu index="2">
-            <template slot="title">
-              <i class="el-icon-s-operation"></i>
-              <span>权限管理</span>
-            </template>
-            <el-menu-item index="roles"><i class="el-icon-user-solid"></i>角色列表</el-menu-item>
-            <el-menu-item index="rights"><i class="el-icon-key"></i>权限列表</el-menu-item>
-          </el-submenu>
-        </el-menu>
+      <el-aside width="200px">
+        <el-scrollbar wrap-class="default-scrollbar__warp">
+          <el-menu :router="true"
+                   :default-active="handlePath()"
+                   background-color="#545c64"
+                   text-color="#fff"
+                   active-text-color="#ffd04b">
+            <!-- 插槽slot 具名 -->
+            <el-submenu :index="menu.path"
+                        v-for="menu in menusData"
+                        :key="menu.id">
+              <template slot="title">
+                <i class="el-icon-s-operation"></i>
+                <span>{{menu.authName}}</span>
+              </template>
+              <el-menu-item :index="item.path"
+                            v-for="item in menu.children"
+                            :key="item.id">
+                <i class="el-icon-user"></i>{{item.authName}}
+              </el-menu-item>
+            </el-submenu>
+          </el-menu>
+        </el-scrollbar>
       </el-aside>
       <!-- 主体 -->
       <el-main>
@@ -60,7 +60,11 @@ export default {
   data () {
     // 这里存放数据
     return {
+      menusData: []
     }
+  },
+  created () {
+    this.loadLeftMenusData()
   },
   // 方法集合
   methods: {
@@ -84,15 +88,28 @@ export default {
           message: '已取消退出'
         })
       }
+    },
+    async loadLeftMenusData () {
+      let res = await this.$axios.get('menus')
+      this.menusData = res.data.data
+    },
+    // 处理home菜单的路由路径
+    handlePath () {
+      let path = this.$route.path
+      return path.slice(1)
     }
   }
 }
 </script>
 <style lang="less" scoped>
 .el-container {
+  width: 100%;
   height: 100%;
+  overflow: hidden;
 }
 .el-header {
+  width: 100%;
+  height: 100px;
   background-color: #434a50;
   padding: 0;
   color: #fff;
@@ -116,6 +133,8 @@ export default {
   }
 }
 .el-aside {
+  height: 100%;
+  width: 60px;
   background-color: #d3dce6;
 }
 .el-main {
