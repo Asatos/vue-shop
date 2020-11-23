@@ -1,0 +1,53 @@
+<div class=''>
+  <div>
+    <el-steps class="step-bar" :active="activeIndex" finish-status="success" :align-center="true">
+      <el-step title="第一步" description="基本信息"></el-step>
+      <el-step title="第二步" description="商品图片"></el-step>
+      <el-step title="第三步" description="商品内容"></el-step>
+    </el-steps>
+  </div>
+  <div class="tabs">
+    <el-tabs tab-position="left" v-model="activeTabsName" @tab-click="clickTabs">
+      <el-tab-pane label="基本信息" name="one">
+        <el-form class="addGoodsForm" :model="addGoodsForm" label-width="80px" label-position="left">
+          <el-form-item label="商品名称">
+            <el-input v-model="addGoodsForm.goods_name"></el-input>
+          </el-form-item>
+          <el-form-item label="商品价格">
+            <el-input v-model="addGoodsForm.goods_price"></el-input>
+          </el-form-item>
+          <el-form-item label="商品重量">
+            <el-input v-model="addGoodsForm.goods_weight"></el-input>
+          </el-form-item>
+          <el-form-item label="商品数量">
+            <el-input v-model="addGoodsForm.goods_number"></el-input>
+          </el-form-item>
+          <el-form-item label="商品分类">
+            <el-cascader :options="options" :props="defaultProps" v-model="addGoodsForm.goods_cat" clearable>
+            </el-cascader>
+          </el-form-item>
+          <el-form-item label="是否促销">
+            <el-radio v-model="addGoodsForm.cuxiao" :label="true">是</el-radio>
+            <el-radio v-model="addGoodsForm.cuxiao" :label="false">否</el-radio>
+          </el-form-item>
+        </el-form>
+        <el-button type="primary" size="mini" @click="next(1,'two')">下一步</el-button>
+      </el-tab-pane>
+      <el-tab-pane label="商品图片" name="two">
+        <el-upload action="http://localhost:8888/api/private/v1/upload/" :headers="uploadHeaders"
+          list-type="picture-card" :on-preview="handlePictureCardPreview" :on-remove="handleRemove"
+          :on-success="handleUploadSuccess">
+          <i class="el-icon-plus"></i>
+        </el-upload>
+        <el-dialog :visible.sync="dialogVisible">
+          <img width="100%" :src="dialogImageUrl" alt="">
+        </el-dialog>
+        <el-button style="margin-top: 10px;" type="primary" size="mini" @click="next(2,'three')">下一步</el-button>
+      </el-tab-pane>
+      <el-tab-pane label="商品内容" name="three">
+        商品内容
+        <el-button type="primary" size="mini">确定</el-button>
+      </el-tab-pane>
+    </el-tabs>
+  </div>
+</div>

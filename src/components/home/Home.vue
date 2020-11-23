@@ -96,6 +96,9 @@ export default {
     // 处理home菜单的路由路径
     handlePath () {
       let path = this.$route.path
+      if (path.includes('-')) {
+        return path.slice(1, path.lastIndexOf('-'))
+      }
       return path.slice(1)
     }
   }
