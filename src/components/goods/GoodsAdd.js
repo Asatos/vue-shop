@@ -1,4 +1,14 @@
+/* eslint-disable camelcase */
+// vue轻量级富文本编辑器
+import { quillEditor } from 'vue-quill-editor'
+// vue轻量级富文本编辑器 styles
+import 'quill/dist/quill.core.css'
+import 'quill/dist/quill.snow.css'
+import 'quill/dist/quill.bubble.css'
 export default {
+  components: {
+    quillEditor
+  },
   data () {
     return {
       // 控制步骤条
@@ -11,6 +21,7 @@ export default {
         goods_price: '',
         goods_weight: '',
         goods_number: '',
+        goods_introduce: '',
         goods_cat: [],
         // 图片
         pics: [],
@@ -28,6 +39,9 @@ export default {
       // 上传请求头token
       uploadHeaders: {
         Authorization: localStorage.getItem('token')
+      },
+      editorOption: {
+        placeholder: '请输入商品详情'
       }
     }
   },
@@ -62,10 +76,37 @@ export default {
       this.dialogVisible = true
     },
     handleUploadSuccess (res) {
-      console.log(res)
       this.addGoodsForm.pics.push({
         pic: res.data.tmp_path
       })
+    },
+    async addGoods () {
+      const {
+        goods_name,
+        goods_cat,
+        goods_price,
+        goods_number,
+        goods_weightt,
+        goods_introduce,
+        pics
+      } = this.addGoodsForm
+      let res = await this.$axios.post('goods', {
+        goods_name,
+        goods_cat: goods_cat.join(','),
+        goods_price,
+        goods_number,
+        goods_weightt,
+        goods_introduce,
+        pics
+      })
+      if (res.data.meta.status === 201) {
+        this.$message({
+          message: '添加成功',
+          type: 'success',
+          duration: 1000
+        })
+        this.$router.push('/goods')
+      }
     }
   }
 }

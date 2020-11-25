@@ -80,7 +80,6 @@ export default {
       })
       this.goodsData = res.data.data.goods
       this.total = res.data.data.total
-      this.pagenum = res.data.data.pagenum
     },
     handleSizeChange (val) {
       this.pagesize = val

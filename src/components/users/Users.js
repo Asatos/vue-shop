@@ -61,6 +61,8 @@ export default {
     }
   },
   created () {
+    let pagenum = this.$route.params.page
+    this.pagenum = pagenum
     this.loadUsersData()
     this.loadRolesData()
   },
@@ -88,6 +90,7 @@ export default {
     },
     handleCurrentChange (val) {
       this.pagenum = val
+      this.$router.push('/users/' + val)
       this.loadUsersData()
     },
     showAddUserDialog () {

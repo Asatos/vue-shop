@@ -45,8 +45,10 @@
         <el-button style="margin-top: 10px;" type="primary" size="mini" @click="next(2,'three')">下一步</el-button>
       </el-tab-pane>
       <el-tab-pane label="商品内容" name="three">
-        商品内容
-        <el-button type="primary" size="mini">确定</el-button>
+        <quill-editor class="editor" v-model="addGoodsForm.goods_introduce" ref="addGoodsFormEditor"
+          :options="editorOption">
+        </quill-editor>
+        <el-button style="margin-top: 20px;" type="primary" size="mini" @click="addGoods">确定</el-button>
       </el-tab-pane>
     </el-tabs>
   </div>
